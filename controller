@@ -1,0 +1,39 @@
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { AppService } from './app.service';
+import { User } from './interfaces/menu.interfaces';
+
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  @Get()
+  getHello(): string {
+    return this.appService.getHello();
+  }
+
+  @Get('/users')
+  getUsers(): User[] {
+    return this.appService.getUsers();
+  }
+
+  @Post('/users')
+  createUser(@Body() user: User): User{
+    return this.appService.createUser(user);
+  }
+
+  @Put('/users/:id')
+  updateUser(
+    @Param('id') id: number,
+    @Body() updatedUser: Partial<User>,
+  ): User | string{
+    return this.appService.updateUser(id, updatedUser);
+  }
+
+
+  @Delete('/users/:id')
+  deleteUser(@Param('id') id: number): User | string{
+    return this.appService.deleteUser(id);
+  }
+
+
+}
